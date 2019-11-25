@@ -16,7 +16,7 @@ class GoogleService
     ws = session.spreadsheet_by_key("1-2cQ6VyGolcHvskOJ1gjgqLMG8tmppJbtjsECn2rh34").worksheets[0]
 
       if ws.num_rows == 0
-        ws.insert_rows(ws.num_rows + 1, [['Date', 'Person', 'Team', 'Email', 'Group/Client','Project','	Minutes','Hours','Tags','Description','Billable',
+        ws.insert_rows(ws.num_rows + 1, [['NokoID', 'Date', 'Person', 'Team', 'Email', 'Group/Client','Project','	Minutes','Hours','Tags','Description','Billable',
           'Invoiced','Invoice Reference','Paid','Approved','Approved By',
           'Year','WEEKnumb','Month','Days','FTE (Months)']])
       end
@@ -24,6 +24,7 @@ class GoogleService
 
     result.each do |entry|
       ws.insert_rows(ws.num_rows + 1, [[
+        entry.id,
         entry.date,
         entry.user.first_name + ' ' + entry.user.last_name,
         '',
@@ -40,11 +41,11 @@ class GoogleService
         entry.invoiced_at ? entry.invoiced_at : 'no',
         entry.approved_at ? entry.approved_at : 'no',
         entry.approved_by,
-        '=YEAR(A' + (ws.num_rows + 1).to_s + ')',
-        '=MONTH(A' + (ws.num_rows + 1).to_s + ')',
-        '=WEEKNUM(C' + (ws.num_rows + 1).to_s + ',1)',
-        '=H' + (ws.num_rows + 1).to_s + '/7.6',
-        '=T' + (ws.num_rows + 1).to_s + '/20.75'
+        '=YEAR(B' + (ws.num_rows + 1).to_s + ')',
+        '=MONTH(B' + (ws.num_rows + 1).to_s + ')',
+        '=WEEKNUM(D' + (ws.num_rows + 1).to_s + ',1)',
+        '=I' + (ws.num_rows + 1).to_s + '/7.6',
+        '=U' + (ws.num_rows + 1).to_s + '/20.75'
         ]])
     end
     ws.save
