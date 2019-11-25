@@ -1,3 +1,4 @@
+require 'date'
 namespace :import do
 
   task users: :environment do
@@ -11,8 +12,8 @@ namespace :import do
 
   desc "Import new Noko entries"
   task entries: [:users, :projects, :environment] do
-    start_date = Time.now.beginning_of_week.to_date
-    end_date = Time.now.end_of_week.to_date
+    start_date = Date.today.prev_day
+    end_date = Date.today
 
     puts "start importing entries from #{start_date} to #{end_date}"
 
