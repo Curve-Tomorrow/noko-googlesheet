@@ -23,15 +23,14 @@ class NokoService
 
   def self.import_entries(start_date, end_date)
     result = client.get_entries(from: start_date, to: end_date)
-    save_entries_for(result)
-
     if last = result.try(:link).try(:last)
       last_page = last.match(/page=(\d+)/)[1].to_i
       (2..last_page).each do |page|
-        result = client.get_entries(from: start_date, to: end_date, page: page)
-        save_entries_for(result)
+        result = result + client.get_entries(from: start_date, to: end_date, page: page)
       end
     end
+    GoogleService.save_entries_for(result)
+    
 end
 
   private

@@ -8,6 +8,7 @@ namespace :import do
     NokoService.import_projects
   end
 
+
   desc "Import new Noko entries"
   task entries: [:users, :projects, :environment] do
     start_date = Time.now.beginning_of_week.to_date
@@ -18,6 +19,14 @@ namespace :import do
     NokoService.import_entries(start_date, end_date)
 
     puts 'finished importing entries'
+  end
+end
+
+namespace :export do
+
+  desc "Export to Google entries"
+  task gsheet: :environment do
+    GoogleService.export_sample
   end
 end
 

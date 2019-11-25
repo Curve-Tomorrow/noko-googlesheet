@@ -4,7 +4,7 @@ module LeaderboardScopes
   extend ActiveSupport::Concern
 
   included do
-    def self.week(from, to)
+    def self.for_date(from, to)
       where(start_date: from, end_date: to).order('total_minutes desc')
     end
 
